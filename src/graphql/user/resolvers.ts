@@ -2,7 +2,7 @@ import { prismaClient } from "../../lib/db";
 import UserServices, { CreateUserPayload } from "../services/user";
 
 const queries = {
-    getUser: async ( _: any, { id } : {id: string}) => {
+    getUser: async ( _: any, { id } : { id: string }) => {
         const response = await prismaClient.user.findUnique({
             where: {
                 id
