@@ -12,6 +12,31 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_DB=threads
       - POSTGRES_PASSWORD=threads
+  
+  threads-app-backend:
+    container_name: threads-app
+    build:
+      context: .threads
+      dockerfile: Dockerfile
+    image: "pantherpaul/threads-app-backend"
+    volumes:
+      - .:/app
+    env_file: ./.env
+    ports:
+      - 8000:8000
+    environment:
+      - NODE_ENV=development
+    depends_on:
+      - postgres
+    command: >
+      sh -c "npx prisma migrate dev --name basic-migration && 
+            npm run dev"
 
 volumes:
   postgres_data:
+  node_modules:
+    driver: local
+
+networks:
+  app-network:
+    driver: bridge
